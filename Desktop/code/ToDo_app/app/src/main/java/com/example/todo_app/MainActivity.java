@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
         });
         mList.add("read");
         mList.add("calculate");
-        mList.add("calculate");
         itemRecyclerView=(RecyclerView)findViewById(R.id.item_recycler_view);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         itemRecyclerView.setLayoutManager(layoutManager);
