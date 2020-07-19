@@ -82,10 +82,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case R.id.delete:
-                Toast.makeText(this,"You clicked Delete",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"You clicked Delete  ",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.settings:
-                Toast.makeText(this,"You clicked Settings",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"You clicked Settings  ",Toast.LENGTH_SHORT).show();
                 break;
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
