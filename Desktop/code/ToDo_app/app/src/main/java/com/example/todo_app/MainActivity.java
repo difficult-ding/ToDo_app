@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
+import org.litepal.crud.DataSupport;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,15 +66,21 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         itemRecyclerView.setLayoutManager(layoutManager);
         adapter=new ItemAdapter(mList);
-        Intent intent=getIntent();
-        String data=intent.getStringExtra("item_data");
         itemRecyclerView.setAdapter(adapter);
-        if(!"".equals(data)){
+        List<Task> tasks= DataSupport.findAll(Task.class);
+        for(Task task:tasks){
+            mList.add(task.getItem());
+            adapter.notifyItemInserted(mList.size()-1);
+            itemRecyclerView.scrollToPosition(mList.size()-1);
+        }
+        //Intent intent=getIntent();
+        //String data=intent.getStringExtra("item_data");
+        /*if(!"".equals(data)){
             Toast.makeText(MainActivity.this,data,Toast.LENGTH_SHORT).show();
             mList.add(data);
             adapter.notifyItemInserted(mList.size()-1);
             itemRecyclerView.scrollToPosition(mList.size()-1);
-        }
+        }*/
     }
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.toolbar,menu);

@@ -25,7 +25,9 @@ public class add_item extends AppCompatActivity {
             public void onClick(View view) {
                 String content=inputText.getText().toString();
                 Intent intent=new Intent(add_item.this,MainActivity.class);
-                intent.putExtra("item_data",content);
+                Task task=new Task();
+                task.setItem(content);
+                task.save();
                 startActivity(intent);
             }
         });
