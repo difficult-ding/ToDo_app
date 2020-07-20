@@ -2,6 +2,7 @@ package com.example.todo_app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,10 +26,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = " ";
     private DrawerLayout mDrawerLayout;
     private RecyclerView itemRecyclerView;
     private ItemAdapter adapter;
     private List<String> mList=new ArrayList<>();
+    private List<Boolean> booleanList=new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,30 +60,20 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v){
                 Intent intent=new Intent(MainActivity.this,add_item.class);
                 startActivity(intent);
-                //Toast.makeText(MainActivity.this,"Fab clicked",Toast.LENGTH_SHORT).show();
             }
         });
-        mList.add("read");
-        mList.add("calculate");
         itemRecyclerView=(RecyclerView)findViewById(R.id.item_recycler_view);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         itemRecyclerView.setLayoutManager(layoutManager);
-        adapter=new ItemAdapter(mList);
-        itemRecyclerView.setAdapter(adapter);
         List<Task> tasks= DataSupport.findAll(Task.class);
         for(Task task:tasks){
             mList.add(task.getItem());
-            adapter.notifyItemInserted(mList.size()-1);
-            itemRecyclerView.scrollToPosition(mList.size()-1);
         }
-        //Intent intent=getIntent();
-        //String data=intent.getStringExtra("item_data");
-        /*if(!"".equals(data)){
-            Toast.makeText(MainActivity.this,data,Toast.LENGTH_SHORT).show();
-            mList.add(data);
-            adapter.notifyItemInserted(mList.size()-1);
-            itemRecyclerView.scrollToPosition(mList.size()-1);
-        }*/
+        adapter=new ItemAdapter(mList);
+        adapter.notifyItemInserted(mList.size()-1);
+        itemRecyclerView.scrollToPosition(mList.size()-1);
+        itemRecyclerView.setAdapter(adapter);
+        booleanList=adapter.getBooleanList();
     }
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.toolbar,menu);
@@ -89,7 +83,22 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case R.id.delete:
-                Toast.makeText(this,"You clicked Delete  ",Toast.LENGTH_SHORT).show();
+                int y=0;
+                //Toast.makeText(this,"You clicked Delete  ",Toast.LENGTH_SHORT).show();
+                for(int i=0;i<mList.size();i++)
+                {
+                    if(booleanList.get(i)!=null&&booleanList.get(i)){
+                        DataSupport.deleteAll(Task.class,"item=?",mList.get(i));
+                        mList.remove(i);
+                        booleanList.remove(i);
+                        i--;
+                        y++;
+                    }
+                }
+                adapter.notifyDataSetChanged();
+                if(y==0){
+                    Toast.makeText(this," 没有要删除的数据 ",Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.settings:
                 Toast.makeText(this,"You clicked Settings  ",Toast.LENGTH_SHORT).show();
