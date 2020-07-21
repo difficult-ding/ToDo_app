@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private RecyclerView itemRecyclerView;
     private ItemAdapter adapter;
-    private List<String> mList=new ArrayList<>();
+    private List<item> mList=new ArrayList<>();
     private List<Boolean> booleanList=new ArrayList<>();
 
     @Override
@@ -67,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
         itemRecyclerView.setLayoutManager(layoutManager);
         List<Task> tasks= DataSupport.findAll(Task.class);
         for(Task task:tasks){
-            mList.add(task.getItem());
+            item item1=new item(task.getItem(),task.getYear(),task.getMonth(),task.getDay(),task.getHour(),task.getMinute());
+            mList.add(item1);
         }
         adapter=new ItemAdapter(mList);
         adapter.notifyItemInserted(mList.size()-1);
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 for(int i=0;i<mList.size();i++)
                 {
                     if(booleanList.get(i)!=null&&booleanList.get(i)){
-                        DataSupport.deleteAll(Task.class,"item=?",mList.get(i));
+                        DataSupport.deleteAll(Task.class,"item=?",mList.get(i).Str);
                         mList.remove(i);
                         booleanList.remove(i);
                         i--;

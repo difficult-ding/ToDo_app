@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
-    private List<String> mList;
+    private List<item> mList;
     private Context context;
     private List<Boolean> booleanList=new ArrayList<>();
     static class ViewHolder extends RecyclerView.ViewHolder{
@@ -23,7 +23,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             checkBox=(CheckBox)view.findViewById(R.id.check_item);
         }
     }
-    public ItemAdapter(List<String> mlist){
+    public ItemAdapter(List<item> mlist){
         mList=mlist;
         for(int i=0;i<mlist.size();i++){
             booleanList.add(false);
@@ -37,9 +37,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     }
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position){
-        String str=mList.get(position);
+        item str=mList.get(position);
         holder.checkBox.setVisibility(View.VISIBLE);
-        holder.checkBox.setText(str);
+        holder.checkBox.setText(str.getStr()+str.getHour()+str.getMinute());
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

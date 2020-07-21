@@ -44,6 +44,11 @@ public class add_item extends AppCompatActivity {
                 Intent intent=new Intent(add_item.this,MainActivity.class);
                 Task task=new Task();
                 task.setItem(content);
+                task.setYear(year);
+                task.setMonth(month);
+                task.setDay(day);
+                task.setHour(hourofDay);
+                task.setMinute(minute);
                 task.save();
                 startActivity(intent);
             }
