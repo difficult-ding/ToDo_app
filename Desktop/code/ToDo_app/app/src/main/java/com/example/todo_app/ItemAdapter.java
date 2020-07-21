@@ -46,7 +46,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                 booleanList.set(position,b);
             }
         });
-        //holder.checkBox.setChecked(booleanList.get(position));
+        holder.checkBox.setChecked(booleanList.get(position));
     }
     @Override
     public int getItemCount(){
